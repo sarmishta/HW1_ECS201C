@@ -1,3 +1,4 @@
+#include <omp.h>
 void ocean (int **grid, int xdim, int ydim, int timesteps)
 {
     /********************* the red-black algortihm (start)************************/
@@ -14,7 +15,7 @@ void ocean (int **grid, int xdim, int ydim, int timesteps)
 
     // PUT YOUR CODE HERE
     int steps,i,j,gridLocation;
-    
+    omp_set_dynamic(1);
     for(steps=0; steps<timesteps;steps++){
         #pragma omp parallel for shared(grid,xdim,ydim) private(i,j) schedule(dynamic)
         for(i=1; i<xdim-1; i++){
