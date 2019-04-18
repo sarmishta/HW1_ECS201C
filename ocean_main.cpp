@@ -87,8 +87,9 @@ int main(int argc, char* argv[])
 
 	chrono::milliseconds total;
 
-    auto start = chrono::high_resolution_clock::now(); // Start the time measurment here before the algorithm starts
+   // Start the time measurment here before the algorithm starts
     if(check==1){
+     auto start = chrono::high_resolution_clock::now(); 
     printf("inside static parallel execution"); 
     pthread_t threads[num_threads]; 
     int* id = (int*)malloc(sizeof(int)*num_threads);
@@ -99,18 +100,23 @@ int main(int argc, char* argv[])
     } 
   
     // joining and waiting for all threads to complete 
-    for (int i = 0; i < num_threads; i++)  
+    for (int i = 0; i < num_threads; i++){
         pthread_join(threads[i], NULL); 
+    }
+    total = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - start);  // End the time measuremnt here since the algorithm ended
+    cout << "Total Execution time: "  << total.count() << "ms" << endl; // print the execution time in ms
 
     }
     else{
+    auto start = chrono::high_resolution_clock::now(); 
     printf("inside serial execution");
     ocean(grid, xdim, ydim, timesteps);
-    }
-    
     total = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - start);  // End the time measuremnt here since the algorithm ended
     cout << "Total Execution time: "  << total.count() << "ms" << endl; // print the execution time in ms
-    printGrid(grid,xdim,ydim);
+    }
+    
+    
+   // printGrid(grid,xdim,ydim);
     
     
 
